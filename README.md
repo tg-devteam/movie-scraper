@@ -5,10 +5,10 @@
 # Get started
 * npm install
 * bower install
-* npm start
 
 # Run the app
-Point browser to localhost:3000
+* npm start
+* Point browser to localhost:3000
 
 # Notes
 * Styling is done with sass, if you modify the style.css file it will be over-written
