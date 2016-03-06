@@ -1,0 +1,21 @@
+{
+  "name": "movie-scraper",
+  "description": "A movie scraping web app.",
+  "main": "server.js",
+  "license": "ISC",
+  "moduleType": [],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.6",
+    "angularjs-geolocation": "^0.1.1",
+    "modernizr": "^3.3.1",
+    "angular-route": "^1.5.0"
+  }
+}
