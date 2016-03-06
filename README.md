@@ -1,6 +1,3 @@
-# movie-scraper
-A movie ratings scraper app
-
 # Get started
 * npm install
 * bower install
