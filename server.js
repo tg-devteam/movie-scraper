@@ -1,38 +1,55 @@
 // Dependencies
 // -----------------------------------------------------
 var express         = require('express');
-var mongoose        = require('mongoose');
-var port            = process.env.PORT || 3000;
-var morgan          = require('morgan');
-var methodOverride  = require('method-override');
-var sass            = require('node-sass');
 var fs              = require('fs');
-var app             = express();
+var methodOverride  = require('method-override');
+var mongoose        = require('mongoose');
+var morgan          = require('morgan');
+var sass            = require('node-sass');
+var path            = require('path');
+var cookieParser    = require('cookie-parser');
+var bodyParser      = require('body-parser');
 
-// Express Configuration
-// -----------------------------------------------------
-// Sets the connection to MongoDB
-// mongoose.connect("mongodb://localhost/MeanMapApp");
+var app = express();
+var db = require('./config/db');
 
 // Logging and Parsing
-app.use(express.static(__dirname + '/public'));                 // sets the static files location to public
-app.use('/bower_components',  express.static(__dirname + '/bower_components')); // Use BowerComponents
-app.use(morgan('dev'));                                         // log with Morgan
-app.use(methodOverride());
+// -----------------------------------------------------
+// parse application/json
+app.use(bodyParser.json());
 
-// Routes
+// parse application/vnd.api+json as json
+app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// override with the X-HTTP-Method-Override header in the request. simulate DELETE/PUT
+app.use(methodOverride('X-HTTP-Method-Override'));
+
+// set the static files location /public/img will be /img for users
+app.use(express.static(__dirname + '/public'));
+
+// Handle the routes
+require(path.join(__dirname, '/app/routes'))(app);
+
+// Handle 404 errors
 // ------------------------------------------------------
-// require('./app/routes.js')(app);
+app.use(function(req, res, next) {
+    var err = new Error('Not Found');
+    err.status = 404;
+    next(err);
+});
 
 // Compile the sass
 // ------------------------------------------------------
 sass.render({
-    file: __dirname + '/public/style.scss',
-    outFile: __dirname + '/public/style.css',
+    file: path.join(__dirname, '/sass/main.scss'),
+    outFile: path.join(__dirname, '/public/css/main.css'),
     outputStyle: 'compressed'
 }, function(error, result) {
     if(!error){
-        fs.writeFile(__dirname + '/public/style.css', result.css, function(err){
+        fs.writeFile(path.join(__dirname, '/public/css/main.css'), result.css, function(err){
             if(!err){
                 console.log('Sass has been saved.')
             }
@@ -42,5 +59,10 @@ sass.render({
 
 // Listen
 // -------------------------------------------------------
-app.listen(port);
-console.log('App listening on port ' + port);
+var server = app.listen(3000, function() {
+    var host = 'localhost';
+    var port = server.address().port;
+    console.log('App listening at http://%s:%s', host, port);
+});
+
+module.exports = app;
