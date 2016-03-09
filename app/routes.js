@@ -1,5 +1,6 @@
 // grab the nerd model we just created
 var Movie = require('./models/movie');
+var path = require('path');
 
 module.exports = function(app) {
     // Server routes ===========================================================
@@ -26,6 +27,6 @@ module.exports = function(app) {
     // Frontend routes =========================================================
     // route to handle all angular requests
     app.get('*', function(req, res) {
-        res.sendFile("/public/index.html", {"root": __dirname});
+        res.sendFile(path.join(__dirname, '../public', 'index.html'));
     });
 };

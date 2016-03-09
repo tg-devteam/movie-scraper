@@ -15,8 +15,8 @@
 * Styling is done with sass
  * Write your styling in a page .scss file in the sass directory
  * Use an import statement to bring your sass file into the main.scss
- * The sass will be compiled each time the server is restarted
- 
+ * The sass will be compiled each time there are changes to any scss files, just refresh the page
+
 * This app uses the MEAN stack
  * MongoDb
  * Express

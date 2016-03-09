@@ -7,9 +7,10 @@ angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', f
         })
 
         // movie page
-        .when('/nerds', {
+        .when('/movies', {
             templateUrl: 'views/movie.html',
             controller: 'MovieController'
         });
+
     $locationProvider.html5Mode(true);
 }]);

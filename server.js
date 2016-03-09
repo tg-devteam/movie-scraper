@@ -1,33 +1,27 @@
 // Dependencies
 // -----------------------------------------------------
+var bodyParser      = require('body-parser');
 var express         = require('express');
 var fs              = require('fs');
 var methodOverride  = require('method-override');
 var mongoose        = require('mongoose');
-var morgan          = require('morgan');
-var sass            = require('node-sass');
+var logger          = require('morgan');
 var path            = require('path');
-var cookieParser    = require('cookie-parser');
-var bodyParser      = require('body-parser');
+var sass            = require('node-sass');
 
 var app = express();
-var db = require('./config/db');
+
+// Database
+// -----------------------------------------------------
+//var db = require('./config/db');
 
 // Logging and Parsing
 // -----------------------------------------------------
-// parse application/json
+app.use(logger('dev'));
 app.use(bodyParser.json());
-
-// parse application/vnd.api+json as json
 app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
-
-// parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
-
-// override with the X-HTTP-Method-Override header in the request. simulate DELETE/PUT
 app.use(methodOverride('X-HTTP-Method-Override'));
-
-// set the static files location /public/img will be /img for users
 app.use(express.static(__dirname + '/public'));
 
 // Handle the routes
